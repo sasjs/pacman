@@ -29,13 +29,6 @@
         "serverUrl": "",
         "serverType": "SASJS",
         "appLoc": "/Public/app/pacman",
-        "streamConfig": {
-          "streamWebFolder": "web",
-          "streamWeb": true,
-          "webSourcePath": "src",
-          "streamServiceName": "Mario",
-          "streamLogo": "mario.png"
-        },
         "deployConfig": {
           "deployServicePack": true
         }

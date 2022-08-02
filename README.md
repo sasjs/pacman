@@ -8,7 +8,7 @@ The aim of this repo is to demonstrate the ease with which apps can be streamed 
 
 # Deployment
 
-If you just want to deploy the game in your SAS environment, in all cases you need to download the relevant asset from the [releases]() page.
+If you just want to deploy the game in your SAS environment, in all cases you need to download the relevant asset from the [releases](https://github.com/sasjs/pacman/releases) page.
 
 * SAS 9 - Open `sas9.sas` in Enterprise Guide or Studio.  Modify line 2 with your preferred appLoc.  Execute and open the link at the end of the log.
 * Viya - Open `viya.sas` in SAS Studio. Execute and open the link at the end of the log.
