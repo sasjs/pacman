@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/sasjs/pacman/compare/v1.0.1...v1.0.2) (2022-08-02)
+
+
+### Bug Fixes
+
+* minor adjustments ([2b0fec4](https://github.com/sasjs/pacman/commit/2b0fec46f5bc40f2d97a794995c76efe396ba73d))
+
 ## [1.0.1](https://github.com/sasjs/pacman/compare/v1.0.0...v1.0.1) (2022-08-02)
 
 
