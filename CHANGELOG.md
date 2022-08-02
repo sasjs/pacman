@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/sasjs/pacman/compare/v1.0.0...v1.0.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* link in readme, logo in sasjs/server ([471b193](https://github.com/sasjs/pacman/commit/471b1936fd900e07cae7d2ebeaccbdb82b230ed5))
+
 # 1.0.0 (2022-08-02)
 
 
