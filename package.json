@@ -1,5 +1,19 @@
 {
-  "dependencies": {
-    "@sasjs/cli": "^3.17.0"
+  "name": "@sasjs/pacman",
+  "repository": "https://github.com/sasjs/pacman",
+  "version": "1.0.0",
+  "description": "Pacman for SAS!",
+  "keywords": [
+    "SAS",
+    "SASViya",
+    "SASjs"
+  ],
+  "author": "",
+  "devDependencies": {
+    "@sasjs/cli": "^3.15.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.4"
   }
 }
