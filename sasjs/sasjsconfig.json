@@ -1,0 +1,45 @@
+{
+    "$schema": "https://raw.githubusercontent.com/sasjs/utils/main/src/types/sasjsconfig-schema.json",
+    "streamConfig": {
+      "streamWeb": true,
+      "streamWebFolder": "web",
+      "webSourcePath": "src",
+      "streamServiceName": "Pacman",
+      "streamLogo": "pacman.png"
+    },
+    "defaultTarget": "server",
+    "targets": [
+      {
+        "name": "viya",
+        "serverUrl": "",
+        "serverType": "SASVIYA",
+        "appLoc": "/Public/app/pacman",
+        "contextName": "SAS Job Execution compute context"
+      },
+      {
+        "name": "sas9",
+        "serverUrl": "",
+        "serverType": "SAS9",
+        "appLoc": "/Public/app/pacman",
+        "serverName": "SASApp",
+        "repositoryName": "Foundation"
+      },
+      {
+        "name": "server",
+        "serverUrl": "",
+        "serverType": "SASJS",
+        "appLoc": "/Public/app/pacman",
+        "streamConfig": {
+          "streamWebFolder": "web",
+          "streamWeb": true,
+          "webSourcePath": "src",
+          "streamServiceName": "Mario",
+          "streamLogo": "mario.png"
+        },
+        "deployConfig": {
+          "deployServicePack": true
+        }
+      }
+    ]
+  }
+  

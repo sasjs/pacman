@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@sasjs/cli": "^3.17.0"
+  }
+}
