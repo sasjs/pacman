@@ -1058,21 +1058,21 @@ var PACMAN = (function () {
 
     if (Modernizr.audio.ogg) {
       var audio_files = [
-        ["start", "./audio/opening_song.ogg"],
-        ["die", "./audio/die.ogg"],
-        ["eatghost", "./audio/eatghost.ogg"],
-        ["eatpill", "./audio/eatpill.ogg"],
-        ["eating", "./audio/eating.short.ogg"],
-        ["eating2", "./audio/eating.short.ogg"]
+        ["start", "audio/opening_song.ogg"],
+        ["die", "audio/die.ogg"],
+        ["eatghost", "audio/eatghost.ogg"],
+        ["eatpill", "audio/eatpill.ogg"],
+        ["eating", "audio/eating.short.ogg"],
+        ["eating2", "audio/eating.short.ogg"]
       ];
     } else {
       var audio_files = [
-        ["start", "./audio/opening_song.mp3"],
-        ["die", "./audio/die.mp3"],
-        ["eatghost", "./audio/eatghost.mp3"],
-        ["eatpill", "./audio/eatpill.mp3"],
-        ["eating", "./audio/eating.short.mp3"],
-        ["eating2", "./audio/eating.short.mp3"]
+        ["start", "audio/opening_song.mp3"],
+        ["die", "audio/die.mp3"],
+        ["eatghost", "audio/eatghost.mp3"],
+        ["eatpill", "audio/eatpill.mp3"],
+        ["eating", "audio/eating.short.mp3"],
+        ["eating2", "audio/eating.short.mp3"]
       ];
     }
 
