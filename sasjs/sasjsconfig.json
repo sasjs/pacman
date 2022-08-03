@@ -1,38 +1,40 @@
 {
-    "$schema": "https://raw.githubusercontent.com/sasjs/utils/main/src/types/sasjsconfig-schema.json",
-    "streamConfig": {
-      "streamWeb": true,
-      "streamWebFolder": "web",
-      "webSourcePath": "src",
-      "streamServiceName": "Pacman",
-      "streamLogo": "pacman.png"
+  "$schema": "https://raw.githubusercontent.com/sasjs/utils/main/src/types/sasjsconfig-schema.json",
+  "streamConfig": {
+    "streamWeb": true,
+    "streamWebFolder": "web",
+    "webSourcePath": "src",
+    "streamServiceName": "Pacman",
+    "streamLogo": "pacman.png"
+  },
+  "defaultTarget": "server",
+  "targets": [
+    {
+      "name": "viya",
+      "serverUrl": "https://sas.analytium.co.uk",
+      "serverType": "SASVIYA",
+      "httpsAgentOptions": {
+        "allowInsecureRequests": false
+      },
+      "appLoc": "/Public/app/pacman",
+      "contextName": "SAS Job Execution compute context"
     },
-    "defaultTarget": "server",
-    "targets": [
-      {
-        "name": "viya",
-        "serverUrl": "",
-        "serverType": "SASVIYA",
-        "appLoc": "/Public/app/pacman",
-        "contextName": "SAS Job Execution compute context"
-      },
-      {
-        "name": "sas9",
-        "serverUrl": "",
-        "serverType": "SAS9",
-        "appLoc": "/Public/app/pacman",
-        "serverName": "SASApp",
-        "repositoryName": "Foundation"
-      },
-      {
-        "name": "server",
-        "serverUrl": "",
-        "serverType": "SASJS",
-        "appLoc": "/Public/app/pacman",
-        "deployConfig": {
-          "deployServicePack": true
-        }
+    {
+      "name": "sas9",
+      "serverUrl": "",
+      "serverType": "SAS9",
+      "appLoc": "/Public/app/pacman",
+      "serverName": "SASApp",
+      "repositoryName": "Foundation"
+    },
+    {
+      "name": "server",
+      "serverUrl": "",
+      "serverType": "SASJS",
+      "appLoc": "/Public/app/pacman",
+      "deployConfig": {
+        "deployServicePack": true
       }
-    ]
-  }
-  
+    }
+  ]
+}
