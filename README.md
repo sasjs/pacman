@@ -34,6 +34,7 @@ You can then click the link at the bottom of the console to launch!
 
 This video demonstrates a deployment onto SAS Viya.
 
-<video src="https://raw.githubusercontent.com/sasjs/pacman/main/pacman.mp4"></video>
+[![Pacman on SAS](https://img.youtube.com/vi/uSZw2d_NOHg/0.jpg)](http://www.youtube.com/watch?v=uSZw2d_NOHg)
 
 
+If you'd like to publish an app with SASjs, we're happy to help - contact us [here](https://sasapps.io/contact).
