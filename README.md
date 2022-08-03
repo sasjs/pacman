@@ -6,7 +6,7 @@ Thanks to [Dale Harvey](https://github.com/daleharvey) for this very [permissive
 
 The aim of this repo is to demonstrate the ease with which apps can be streamed in SAS Viya, EBI, and SASjs Server.
 
-# Deployment
+## Deployment
 
 If you just want to deploy the game in your SAS environment, in all cases you need to download the relevant asset from the [releases](https://github.com/sasjs/pacman/releases) page.
 
@@ -14,7 +14,7 @@ If you just want to deploy the game in your SAS environment, in all cases you ne
 * Viya - Open `viya.sas` in SAS Studio. Execute and open the link at the end of the log.
 * SASjs Server - just import the `server.json.zip` file to AppStream
 
-# Build
+## Build
 
 If you would like to build the app from source, you first need to [install](https://cli.sasjs.io/installation) the SASjs CLI.
 
@@ -30,6 +30,10 @@ sasjs cbd
 
 You can then click the link at the bottom of the console to launch!
 
+## Demo
 
+This video demonstrates a deployment onto SAS Viya.
+
+<video src="https://raw.githubusercontent.com/sasjs/pacman/main/pacman.mp4"></video>
 
 

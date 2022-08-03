@@ -11,7 +11,7 @@
   "targets": [
     {
       "name": "viya",
-      "serverUrl": "https://sas.analytium.co.uk",
+      "serverUrl": "",
       "serverType": "SASVIYA",
       "httpsAgentOptions": {
         "allowInsecureRequests": false
