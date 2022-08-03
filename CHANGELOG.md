@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/sasjs/pacman/compare/v1.0.3...v1.0.4) (2022-08-03)
+
+
+### Bug Fixes
+
+* tweaks to get URLs to work on Viya ([57551a3](https://github.com/sasjs/pacman/commit/57551a316a386678ef5149e3543994392bb5c36e))
+
 ## [1.0.3](https://github.com/sasjs/pacman/compare/v1.0.2...v1.0.3) (2022-08-03)
 
 
