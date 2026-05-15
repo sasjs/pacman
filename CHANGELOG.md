@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/sasjs/pacman/compare/v1.0.5...v1.0.6) (2026-05-15)
+
+
+### Bug Fixes
+
+* csp compliance ([b53853c](https://github.com/sasjs/pacman/commit/b53853c0a693dadc6e101eb34bfdde8d5320b7fc))
+
 ## [1.0.5](https://github.com/sasjs/pacman/compare/v1.0.4...v1.0.5) (2026-05-15)
 
 
