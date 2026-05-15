@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/sasjs/pacman/compare/v1.0.7...v1.0.8) (2026-05-15)
+
+
+### Bug Fixes
+
+* font csp and audio feature detection ([1a8dd74](https://github.com/sasjs/pacman/commit/1a8dd748033e7d8241100f6b0017c966351fc9ab))
+
 ## [1.0.7](https://github.com/sasjs/pacman/compare/v1.0.6...v1.0.7) (2026-05-15)
 
 
