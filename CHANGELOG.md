@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/sasjs/pacman/compare/v1.0.4...v1.0.5) (2026-05-15)
+
+
+### Bug Fixes
+
+* package bumps ([85e3a79](https://github.com/sasjs/pacman/commit/85e3a794a90d881559f343b3599ac59c4a486f8b))
+
 ## [1.0.4](https://github.com/sasjs/pacman/compare/v1.0.3...v1.0.4) (2022-08-03)
 
 
