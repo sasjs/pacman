@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/sasjs/pacman/compare/v1.0.11...v1.0.12) (2026-05-15)
+
+
+### Bug Fixes
+
+* tidy up ([7c63bb3](https://github.com/sasjs/pacman/commit/7c63bb3625928b5894e12e31180bbda56adc348c))
+
 ## [1.0.11](https://github.com/sasjs/pacman/compare/v1.0.10...v1.0.11) (2026-05-15)
 
 
