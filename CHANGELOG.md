@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/sasjs/pacman/compare/v1.0.8...v1.0.9) (2026-05-15)
+
+
+### Bug Fixes
+
+* sound csp ([18408e6](https://github.com/sasjs/pacman/commit/18408e66048e65ef69d96cd08cab507deeec80c7))
+
 ## [1.0.8](https://github.com/sasjs/pacman/compare/v1.0.7...v1.0.8) (2026-05-15)
 
 
