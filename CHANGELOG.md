@@ -1,3 +1,10 @@
+## [1.0.10](https://github.com/sasjs/pacman/compare/v1.0.9...v1.0.10) (2026-05-15)
+
+
+### Bug Fixes
+
+* console logs and another audio check ([3bc82ed](https://github.com/sasjs/pacman/commit/3bc82ed2d2a54154b2b4774dd47957fac502786f))
+
 ## [1.0.9](https://github.com/sasjs/pacman/compare/v1.0.8...v1.0.9) (2026-05-15)
 
 
