@@ -720,8 +720,10 @@ Pacman.Audio = function (game) {
 
   function disableSound() {
     for (var i = 0; i < playing.length; i++) {
-      files[playing[i]].pause();
-      files[playing[i]].currentTime = 0;
+      if (files[playing[i]]) {
+        files[playing[i]].pause();
+        files[playing[i]].currentTime = 0;
+      }
     }
     playing = [];
   };
@@ -743,23 +745,27 @@ Pacman.Audio = function (game) {
   };
 
   function play(name) {
-    if (!game.soundDisabled()) {
+    if (!game.soundDisabled() && files[name]) {
       endEvents[name] = function () { ended(name); };
       playing.push(name);
       files[name].addEventListener("ended", endEvents[name], true);
-      files[name].play();
+      var p = files[name].play();
+      if (p && p.catch) { p.catch(function () {}); }
     }
   };
 
   function pause() {
     for (var i = 0; i < playing.length; i++) {
-      files[playing[i]].pause();
+      if (files[playing[i]]) { files[playing[i]].pause(); }
     }
   };
 
   function resume() {
     for (var i = 0; i < playing.length; i++) {
-      files[playing[i]].play();
+      if (files[playing[i]]) {
+        var p = files[playing[i]].play();
+        if (p && p.catch) { p.catch(function () {}); }
+      }
     }
   };
 
@@ -1080,7 +1086,15 @@ var PACMAN = (function () {
       ];
     }
 
-    load(audio_files, function () { loaded(); });
+    var loadDone = false;
+    function safeLoaded() {
+      if (!loadDone) {
+        loadDone = true;
+        loaded();
+      }
+    }
+    window.setTimeout(safeLoaded, 2000);
+    load(audio_files, safeLoaded);
   };
 
   function load(arr, callback) {
