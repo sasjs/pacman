@@ -703,6 +703,7 @@ Pacman.Audio = function (game) {
     progressEvents[name] = function (event) { progress(event, name, cb); };
 
     f.addEventListener("canplaythrough", progressEvents[name], true);
+    f.addEventListener("error", function () { if (typeof cb === "function") cb(); }, true);
     f.setAttribute("preload", "true");
     f.setAttribute("autobuffer", "true");
     f.setAttribute("src", path);
@@ -796,18 +797,21 @@ var PACMAN = (function () {
 
   function drawScore(text, position) {
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = "12px BDCartoonShoutRegular";
+    ctx.font = "12px sans-serif";
     ctx.fillText(text,
       (position["new"]["x"] / 10) * map.blockSize,
       ((position["new"]["y"] + 5) / 10) * map.blockSize);
   }
 
   function dialog(text) {
-    ctx.fillStyle = "#FFFF00";
-    ctx.font = "14px BDCartoonShoutRegular";
+    ctx.font = "14px sans-serif";
     var width = ctx.measureText(text).width,
-      x = ((map.width * map.blockSize) - width) / 2;
-    ctx.fillText(text, x, (map.height * 10) + 8);
+      x = ((map.width * map.blockSize) - width) / 2,
+      y = (map.height * 10) + 8;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(x - 4, y - 14, width + 8, 20);
+    ctx.fillStyle = "#FFFF00";
+    ctx.fillText(text, x, y);
   }
 
   function soundDisabled() {
@@ -901,7 +905,7 @@ var PACMAN = (function () {
     ctx.fillText("s", 10, textBase);
 
     ctx.fillStyle = "#FFFF00";
-    ctx.font = "14px BDCartoonShoutRegular";
+    ctx.font = "14px sans-serif";
     ctx.fillText("Score: " + user.theScore(), 30, textBase);
     ctx.fillText("Level: " + level, 260, textBase);
   }

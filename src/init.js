@@ -1,8 +1,7 @@
 (function () {
   var el = document.getElementById("pacman");
 
-  if (Modernizr.canvas && Modernizr.localstorage &&
-    Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
+  if (Modernizr.canvas && Modernizr.localstorage) {
     window.setTimeout(function () { PACMAN.init(el, "./"); }, 0);
   } else {
     var msg = document.createElement("span");
