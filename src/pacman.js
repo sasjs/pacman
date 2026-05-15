@@ -851,18 +851,19 @@ var PACMAN = (function () {
   }
 
   function keyDown(e) {
-    console.log("[pacman] keyDown:", e.keyCode, "KEY.N:", KEY.N);
-    if (e.keyCode === KEY.N) {
+    var key = (e.key || "").toUpperCase();
+    console.log("[pacman] keyDown: keyCode", e.keyCode, "key", key);
+    if (key === "N") {
       console.log("[pacman] starting new game");
       startNewGame();
-    } else if (e.keyCode === KEY.S) {
+    } else if (key === "S") {
       audio.disableSound();
       localStorage["soundDisabled"] = !soundDisabled();
-    } else if (e.keyCode === KEY.P && state === PAUSE) {
+    } else if (key === "P" && state === PAUSE) {
       audio.resume();
       map.draw(ctx);
       setState(stored);
-    } else if (e.keyCode === KEY.P) {
+    } else if (key === "P") {
       stored = state;
       setState(PAUSE);
       audio.pause();
