@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/sasjs/pacman/compare/v1.0.6...v1.0.7) (2026-05-15)
+
+
+### Bug Fixes
+
+* strict csp for sas viya ([d603004](https://github.com/sasjs/pacman/commit/d603004efdd10e90c90ffc6ddb819d7c6e715625))
+
 ## [1.0.6](https://github.com/sasjs/pacman/compare/v1.0.5...v1.0.6) (2026-05-15)
 
 
