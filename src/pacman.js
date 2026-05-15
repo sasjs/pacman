@@ -334,8 +334,9 @@ Pacman.User = function (game, map) {
   };
 
   function keyDown(e) {
-    if (typeof keyMap[e.keyCode] !== "undefined") {
-      due = keyMap[e.keyCode];
+    var mapped = keyMap[e.keyCode];
+    if (typeof mapped !== "undefined") {
+      due = mapped;
       e.preventDefault();
       e.stopPropagation();
       return false;
@@ -698,17 +699,12 @@ Pacman.Audio = function (game) {
 
   function load(name, path, cb) {
 
-    console.log("[pacman] audio.load: attempting", name, path);
     var f = files[name] = document.createElement("audio");
 
-    progressEvents[name] = function (event) {
-      console.log("[pacman] audio canplaythrough:", name);
-      progress(event, name, cb);
-    };
+    progressEvents[name] = function (event) { progress(event, name, cb); };
 
     f.addEventListener("canplaythrough", progressEvents[name], true);
-    f.addEventListener("error", function (e) {
-      console.log("[pacman] audio error:", name, e);
+    f.addEventListener("error", function () {
       if (typeof cb === "function") cb();
     }, true);
     f.setAttribute("preload", "true");
@@ -852,9 +848,7 @@ var PACMAN = (function () {
 
   function keyDown(e) {
     var key = (e.key || "").toUpperCase();
-    console.log("[pacman] keyDown: keyCode", e.keyCode, "key", key);
     if (key === "N") {
-      console.log("[pacman] starting new game");
       startNewGame();
     } else if (key === "S") {
       audio.disableSound();
@@ -1097,25 +1091,20 @@ var PACMAN = (function () {
     }
 
     var loadDone = false;
-    function safeLoaded(src) {
-      console.log("[pacman] safeLoaded called from:", src, "loadDone:", loadDone);
+    function safeLoaded() {
       if (!loadDone) {
         loadDone = true;
         loaded();
       }
     }
-    /* Probe: try one audio file with a short timeout. If it doesn't respond
-       (CSP blocks silently - no error or canplaythrough event fires), skip
-       audio entirely rather than waiting through a full 2s timeout. */
+    /* Probe one file first with a short timeout. If CSP blocks media silently
+       (no error or canplaythrough fires), skip audio after 500ms rather than
+       hanging forever on the load chain. */
     var probeFile = audio_files[audio_files.length - 1];
-    var probeTimeout = window.setTimeout(function () {
-      console.log("[pacman] audio probe timed out - CSP likely blocking, skipping audio");
-      safeLoaded("probe-timeout");
-    }, 2000);
+    var probeTimeout = window.setTimeout(safeLoaded, 500);
     audio.load(probeFile[0], probeFile[1], function () {
-      console.log("[pacman] audio probe succeeded - loading remaining files");
       window.clearTimeout(probeTimeout);
-      load(audio_files.slice(0, audio_files.length - 1), function () { safeLoaded("chain"); });
+      load(audio_files.slice(0, audio_files.length - 1), safeLoaded);
     });
   };
 
@@ -1131,7 +1120,6 @@ var PACMAN = (function () {
 
   function loaded() {
 
-    console.log("[pacman] loaded() - registering keydown, starting timer");
     dialog("Press N to Start");
 
     document.addEventListener("keydown", keyDown, true);
