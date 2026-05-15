@@ -698,12 +698,19 @@ Pacman.Audio = function (game) {
 
   function load(name, path, cb) {
 
+    console.log("[pacman] audio.load: attempting", name, path);
     var f = files[name] = document.createElement("audio");
 
-    progressEvents[name] = function (event) { progress(event, name, cb); };
+    progressEvents[name] = function (event) {
+      console.log("[pacman] audio canplaythrough:", name);
+      progress(event, name, cb);
+    };
 
     f.addEventListener("canplaythrough", progressEvents[name], true);
-    f.addEventListener("error", function () { if (typeof cb === "function") cb(); }, true);
+    f.addEventListener("error", function (e) {
+      console.log("[pacman] audio error:", name, e);
+      if (typeof cb === "function") cb();
+    }, true);
     f.setAttribute("preload", "true");
     f.setAttribute("autobuffer", "true");
     f.setAttribute("src", path);
@@ -750,7 +757,7 @@ Pacman.Audio = function (game) {
       playing.push(name);
       files[name].addEventListener("ended", endEvents[name], true);
       var p = files[name].play();
-      if (p && p.catch) { p.catch(function () {}); }
+      if (p && p.catch) { p.catch(function () { }); }
     }
   };
 
@@ -764,7 +771,7 @@ Pacman.Audio = function (game) {
     for (var i = 0; i < playing.length; i++) {
       if (files[playing[i]]) {
         var p = files[playing[i]].play();
-        if (p && p.catch) { p.catch(function () {}); }
+        if (p && p.catch) { p.catch(function () { }); }
       }
     }
   };
@@ -844,7 +851,9 @@ var PACMAN = (function () {
   }
 
   function keyDown(e) {
+    console.log("[pacman] keyDown:", e.keyCode, "KEY.N:", KEY.N);
     if (e.keyCode === KEY.N) {
+      console.log("[pacman] starting new game");
       startNewGame();
     } else if (e.keyCode === KEY.S) {
       audio.disableSound();
@@ -1087,14 +1096,26 @@ var PACMAN = (function () {
     }
 
     var loadDone = false;
-    function safeLoaded() {
+    function safeLoaded(src) {
+      console.log("[pacman] safeLoaded called from:", src, "loadDone:", loadDone);
       if (!loadDone) {
         loadDone = true;
         loaded();
       }
     }
-    window.setTimeout(safeLoaded, 2000);
-    load(audio_files, safeLoaded);
+    /* Probe: try one audio file with a short timeout. If it doesn't respond
+       (CSP blocks silently - no error or canplaythrough event fires), skip
+       audio entirely rather than waiting through a full 2s timeout. */
+    var probeFile = audio_files[audio_files.length - 1];
+    var probeTimeout = window.setTimeout(function () {
+      console.log("[pacman] audio probe timed out - CSP likely blocking, skipping audio");
+      safeLoaded("probe-timeout");
+    }, 2000);
+    audio.load(probeFile[0], probeFile[1], function () {
+      console.log("[pacman] audio probe succeeded - loading remaining files");
+      window.clearTimeout(probeTimeout);
+      load(audio_files.slice(0, audio_files.length - 1), function () { safeLoaded("chain"); });
+    });
   };
 
   function load(arr, callback) {
@@ -1109,6 +1130,7 @@ var PACMAN = (function () {
 
   function loaded() {
 
+    console.log("[pacman] loaded() - registering keydown, starting timer");
     dialog("Press N to Start");
 
     document.addEventListener("keydown", keyDown, true);
