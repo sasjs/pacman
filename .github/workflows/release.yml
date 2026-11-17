@@ -1,52 +1,54 @@
-name: Push SASjs Deployment Assets
+name: Release
 
 on:
   push:
     branches:
       - main
+  # a release that died after cutting the tag is re-runnable; nothing is
+  # committed back, so a second run finishes it rather than duplicating it
+  workflow_dispatch:
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    # the release makes a tag and a release, and nothing is committed back
+    permissions:
+      contents: write
 
     strategy:
       matrix:
-        node-version: [lts/*]
+        node-version: [24]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          # the version comes from the tags, and a depth-1 clone has none
+          fetch-depth: 0
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --ignore-scripts
         env:
           CI: true
 
-      - name: create SAS 9 EBI build and Add to Release
-        run: |
-          npx sasjs cb -t sas9
-          mkdir ./artefacts
-          cp ./sasjsbuild/sas9.sas ./artefacts/sas9.sas
+      # the same script the pull-request check runs, so what a release uploads
+      # is what a pull request built and checked
+      - name: Build the release artefacts
+        run: bash scripts/build-artefacts.sh
 
-      - name: create Viya build and Add to Release
-        run: |
-          npx sasjs cb -t viya
-          cp ./sasjsbuild/viya.sas ./artefacts/viya.sas
+      - name: Check what the artefacts say
+        run: npm run check:artefacts
 
-      - name: create SASjs build and Add to Release
-        run: |
-          npx sasjs cb -t server
-          cp ./sasjsbuild/server.json.zip ./artefacts/server.json.zip
-
-      - name: Install Semantic Release and plugins
-        run: |
-          npm i
-          npm i -g semantic-release
+      # @sasjs/release is a devDependency, so the version that runs is the one
+      # in package-lock.json. It refuses to tag or release when a configured
+      # asset is missing, which is how a build that silently produced nothing is
+      # caught here rather than by the first person to import the zip.
       - name: Release
-        run: |
-          GITHUB_TOKEN=${{ secrets.GH_TOKEN }} semantic-release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx sasjs-release --release

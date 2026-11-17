@@ -9,11 +9,16 @@
     "SASjs"
   ],
   "author": "",
+  "engines": {
+    "node": ">=22.15.0"
+  },
+  "scripts": {
+    "build:artefacts": "bash scripts/build-artefacts.sh",
+    "check:artefacts": "node scripts/check-artefacts.mjs"
+  },
   "devDependencies": {
-    "@sasjs/cli": "^4.17.4",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^7.1.0",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^12.0.8"
+    "@sasjs/cli": "^7.2.2",
+    "@sasjs/core": "^7.1.15",
+    "@sasjs/release": "^0.12.1"
   }
 }

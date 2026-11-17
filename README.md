@@ -24,7 +24,7 @@ If you just want to deploy the game in your SAS environment, in all cases you ne
 
 * SAS 9 - Open `sas9.sas` in Enterprise Guide or Studio.  Modify line 2 with your preferred appLoc.  Execute and open the link at the end of the log.
 * Viya - Open `viya.sas` in SAS Studio. Execute and open the link at the end of the log.
-* SASjs Server - just import the `server.json.zip` file to AppStream
+* SASjs Server - import `server.json.zip` on the AppStream page, or `sasjs deploy -t server`. The pack is a streamed app: its files land at the target `appLoc` (`/Public/app/pacman` by default) and the deploy publishes it, so it opens at `/app/<id>/`.
 
 ## Build
 
@@ -35,12 +35,23 @@ Then, update the `defaultTarget` attribute of the `sasjs/sasjsconfig.json` accor
 Instructions thereafter:
 
 ```bash
-npm i
+npm ci
 sasjs auth
 sasjs cbd
 ```
 
 You can then click the link at the bottom of the console to launch!
+
+The `server` target also builds a static mock site (`streamConfig.mockWeb`), so
+the game can be played with no SAS server at all:
+
+```bash
+npx sasjs cb -t server
+npx http-server ./sasjsbuild/mock -p 3001
+```
+
+The mock site serves `src/` at its root and seeds the streamed deployment onto
+its in-browser drive at `appLoc`, which is where an app reads its files from.
 
 ## Demo
 
