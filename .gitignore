@@ -3,3 +3,4 @@ sasjsbuild/
 .env*
 
 sasjsresults/
+artefacts/

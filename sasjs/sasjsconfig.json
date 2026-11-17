@@ -13,9 +13,6 @@
       "name": "viya",
       "serverUrl": "",
       "serverType": "SASVIYA",
-      "httpsAgentOptions": {
-        "allowInsecureRequests": false
-      },
       "appLoc": "/Public/app/pacman",
       "contextName": "SAS Job Execution compute context"
     },
@@ -32,9 +29,34 @@
       "serverUrl": "",
       "serverType": "SASJS",
       "appLoc": "/Public/app/pacman",
+      "streamConfig": {
+        "streamWeb": true,
+        "streamWebFolder": "web",
+        "webSourcePath": "src",
+        "streamServiceName": "Pacman",
+        "streamLogo": "pacman.png",
+        "mockWeb": true,
+        "mockWebFolder": "sasjsbuild/mock"
+      },
       "deployConfig": {
         "deployServicePack": true
       }
     }
-  ]
+  ],
+  "release": {
+    "assets": [
+      {
+        "path": "artefacts/server.json.zip",
+        "label": "SASjs Streamed App (Zip File)"
+      },
+      {
+        "path": "artefacts/sas9.sas",
+        "label": "SAS 9 EBI Deployment (SAS Program)"
+      },
+      {
+        "path": "artefacts/viya.sas",
+        "label": "Viya Deployment (SAS Program)"
+      }
+    ]
+  }
 }
