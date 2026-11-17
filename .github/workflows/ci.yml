@@ -1,0 +1,62 @@
+name: CI
+
+# A split from the release job on purpose: this runs on every pull request and
+# needs no secrets, and it does what a release does - builds the three
+# artefacts and asks @sasjs/release what it would cut - short of tagging or
+# uploading anything. main is not listed because the release workflow already
+# runs there, and two jobs building the same commit buy nothing.
+on:
+  pull_request:
+    branches:
+      - main
+  # a branch that is not a pull request yet still gets the same check
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-check:
+    name: Release check
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # @sasjs/release works the next version out from the commits after the
+          # newest tag, and a depth-1 clone has neither
+          fetch-depth: 0
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+        env:
+          CI: true
+
+      # the same script the release runs, so a build that would upload nothing
+      # fails here rather than on main
+      - name: Build the release artefacts
+        run: bash scripts/build-artefacts.sh
+
+      # what each artefact must contain, not just that a file exists: the pack
+      # names where the app lands and carries the manifest that publishes it,
+      # and the mock site holds the same deployment on its drive
+      - name: Check what the artefacts say
+        run: npm run check:artefacts
+
+      - name: What the release would cut
+        run: npx sasjs-release --dry-run

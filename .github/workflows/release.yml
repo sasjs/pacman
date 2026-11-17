@@ -36,30 +36,13 @@ jobs:
         env:
           CI: true
 
-      # `sasjs cb` clears the folder it writes before it writes, so the file is
-      # copied out before the next target builds over it. What a release
-      # publishes is the `release` block in sasjs/sasjsconfig.json.
-      - name: Build the SAS 9 EBI deployment program
-        run: |
-          mkdir -p artefacts
-          npx sasjs cb -t sas9
-          cp ./sasjsbuild/sas9.sas ./artefacts/sas9.sas
-          test -s ./artefacts/sas9.sas
+      # the same script the pull-request check runs, so what a release uploads
+      # is what a pull request built and checked
+      - name: Build the release artefacts
+        run: bash scripts/build-artefacts.sh
 
-      - name: Build the Viya deployment program
-        run: |
-          npx sasjs cb -t viya
-          cp ./sasjsbuild/viya.sas ./artefacts/viya.sas
-          test -s ./artefacts/viya.sas
-
-      # The streamed app: the same command also builds the mock site into
-      # sasjsbuild/mock (streamConfig.mockWeb), which is not a release asset -
-      # the pack is, because deploying it is what publishes the app at /app.
-      - name: Build the SASjs deploy package
-        run: |
-          npx sasjs cb -t server
-          cp ./sasjsbuild/server.json.zip ./artefacts/server.json.zip
-          test -s ./artefacts/server.json.zip
+      - name: Check what the artefacts say
+        run: npm run check:artefacts
 
       # @sasjs/release is a devDependency, so the version that runs is the one
       # in package-lock.json. It refuses to tag or release when a configured
