@@ -1,0 +1,123 @@
+name: Publish the mock site
+
+# The game with no SAS anywhere: `sasjs cb -t server` also builds the mock site
+# (streamConfig.mockWeb), a static site whose service worker answers the SASjs
+# API from @sasjs/api. Publishing it means pacman can be played without a SAS
+# licence, a server, or a checkout.
+#
+# One-time repository setting, which a workflow cannot make for itself:
+# Settings -> Pages -> Build and deployment -> Source: GitHub Actions. Until that
+# is set the deploy job is where it fails, naming this - the build job is
+# unaffected.
+#
+# The site is published from main only; a pull request still builds it, so a
+# change that breaks the browser build is red here before it merges.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# the build job runs on every pull request, so it carries no Pages or OIDC
+# permission: only the deploy job, which runs from main, holds those
+permissions:
+  contents: read
+
+# one publish at a time, and never cancel one that is half-deployed
+concurrency:
+  group: mock-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build the mock site
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+        env:
+          CI: true
+
+      # the same target the release builds: the pack for a server, and beside it
+      # the site this workflow publishes
+      - name: Build the streamed app and its mock site
+        run: npx sasjs cb -t server
+
+      # a build that produced a folder is not a site that answers: the entry
+      # page, the worker and the drive seed it reads are all required, and the
+      # seed has to hold the deployment the page reads through _FILE=
+      - name: Check the site is complete
+        run: |
+          test -s sasjsbuild/mock/index.html
+          test -s sasjsbuild/mock/sw.js
+          test -s sasjsbuild/mock/host/vfs-seed.json
+          node -e '
+            const seed = require("./sasjsbuild/mock/host/vfs-seed.json")
+            const config = require("./sasjsbuild/mock/host/mock-config.json")
+            const prefix = "/sasjs/drive/files" + config.appLoc + "/services/web/"
+            const files = Object.keys(seed.files || {}).filter((k) => k.startsWith(prefix))
+            if (!files.length) {
+              console.error("the drive holds nothing under " + prefix + ", so the page would 404")
+              process.exit(1)
+            }
+            console.log(files.length + " files under " + prefix)
+          '
+
+      # Jekyll would drop the underscore-free site's dotfile-free build, and
+      # nothing else has to be added: the site needs no CNAME until a domain does
+      - name: Add the Jekyll marker
+        run: touch sasjsbuild/mock/.nojekyll
+
+      # configure-pages is not run here on purpose: it fails when Pages is not
+      # enabled yet, and a pull request must not be red for a repository setting
+      # it cannot make. The site's own URLs are relative, so the build does not
+      # need the base path configure-pages supplies.
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: sasjsbuild/mock
+
+  deploy:
+    name: Deploy the mock site
+    # a pull request builds, only main publishes
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # enablement: true creates the Pages site on the first run instead of
+      # failing on it, which is the only step here that needs repo admin
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

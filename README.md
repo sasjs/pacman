@@ -6,6 +6,8 @@ Thanks to [Dale Harvey](https://github.com/daleharvey) for this very [permissive
 
 The aim of this repo is to demonstrate the ease with which apps can be streamed in SAS Viya, EBI, and SASjs Server.
 
+Play it with no SAS server at all: https://sasjs.github.io/pacman/ - the mock site, built from the same target as the streamed app.
+
 ## Quick Start on Viya
 
 Just run the following in SAS Studio, and open the link at the bottom of the log:
